@@ -16,7 +16,8 @@
     "lint": "eslint client/src && sass-lint -v client/src"
   },
   "devDependencies": {
-    "@silverstripe/webpack-config": "^0.5"
+    "@silverstripe/webpack-config": "^0.5",
+    "svg-url-loader": "^2.3.1"
   },
   "dependencies": {
     "react": "15.3.1",

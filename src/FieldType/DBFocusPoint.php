@@ -3,7 +3,7 @@
 namespace JonoM\FocusPoint\FieldType;
 
 
-use JonoM\FocusPoint\FocusPointField;
+use JonoM\FocusPoint\Forms\FocusPointField;
 use SilverStripe\Assets\Image;
 use SilverStripe\Assets\Image_Backend;
 use SilverStripe\Assets\Storage\AssetContainer;
@@ -30,7 +30,7 @@ class DBFocusPoint extends DBComposite
      */
     public function getFocusX()
     {
-        return $this->getField('FocusX');
+        return (double)$this->getField('FocusX');
     }
 
     /**
@@ -50,7 +50,7 @@ class DBFocusPoint extends DBComposite
      */
     public function getFocusY()
     {
-        return $this->getField('FocusY');
+        return (double)$this->getField('FocusY');
     }
 
     /**

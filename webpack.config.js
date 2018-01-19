@@ -24,6 +24,18 @@ const PATHS = {
   DIST: Path.resolve('client/dist')
 };
 
+cssRules = moduleCSS(ENV, PATHS);
+// Specify the assets rule and remove svg. Currently using index, which is not optimal…
+cssRules.rules[2].test = /\.(png|gif|jpe?g)$/;
+cssRules.rules.splice(0, 0, {
+  test: /\.svg$/,
+  exclude: /fonts\/([\w_-]+)\.svg$/,
+  loader: 'svg-url-loader',
+  options: {
+    stripdeclarations: true
+  },
+});
+
 const config = [
   {
     name: 'js',
@@ -50,7 +62,7 @@ const config = [
       filename: 'styles/[name].css',
     },
     devtool: (ENV !== 'production') ? 'source-map' : '',
-    module: moduleCSS(ENV, PATHS),
+    module: cssRules,
     plugins: pluginCSS(ENV, PATHS),
   },
 ];

@@ -45,6 +45,8 @@ class FocusPointField extends FieldGroup
 
     protected $schemaComponent = 'FocusPointField';
 
+    protected $image = null;
+
     public function __construct($name, $title = null, Image $image = null)
     {
         // Create the fields
@@ -59,6 +61,7 @@ class FocusPointField extends FieldGroup
                 FocusPointField::class,
                 ['FieldGridBackgroundCSS' => $image->FieldGridBackgroundCSS($previewImage->getWidth(), $previewImage->getHeight())]
             )));
+            $this->image = $image;
         }
 
         parent::__construct($fields);
@@ -71,5 +74,37 @@ class FocusPointField extends FieldGroup
         if (Director::isDev() && $this->config()->get('debug')) {
             $this->addExtraClass('debug');
         }
+    }
+
+    public function getToolTip()
+    {
+        return _t(
+            __CLASS__ . '.FieldToolTip',
+            'Click on the subject of the image to ensure it is not lost during cropping'
+        );
+    }
+
+    public function getSchemaStateDefaults()
+    {
+        $state = parent::getSchemaStateDefaults();
+        $state['data'] += [
+            'tooltip' => $this->getToolTip(),
+            'showDebug' => Director::isDev() && $this->config()->get('debug')
+        ];
+
+        if ($this->image) {
+            $w = intval($this->config()->get('max_width'));
+            $h = intval($this->config()->get('max_height'));
+            $previewImage = $this->image->FitMax($w * 2, $h * 2);
+            $state['data'] += [
+                'previewUrl' => $previewImage->URL,
+                'previewWidth' => $previewImage->getWidth(),
+                'previewHeight' => $previewImage->getHeight(),
+                'FocusX' => $this->image->getField($this->name)->getFocusX(),
+                'FocusY' => $this->image->getField($this->name)->getFocusY()
+            ];
+        }
+
+        return $state;
     }
 }
