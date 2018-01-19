@@ -5,6 +5,7 @@ namespace JonoM\FocusPoint\Forms;
 use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\FieldGroup;
+use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\TextField;
 
@@ -39,6 +40,10 @@ class FocusPointField extends FieldGroup
      * @config
      */
     private static $max_height = 150;
+
+    protected $schemaDataType = FormField::SCHEMA_DATA_TYPE_CUSTOM;
+
+    protected $schemaComponent = 'FocusPointField';
 
     public function __construct($name, $title = null, Image $image = null)
     {
