@@ -51,8 +51,8 @@ class FocusPointField extends FieldGroup
     {
         // Create the fields
         $fields = [
-            TextField::create($name . 'FocusX'),
-            TextField::create($name . 'FocusY')
+            TextField::create($name . 'X'),
+            TextField::create($name . 'Y')
         ];
 
         if ($image) {
@@ -100,8 +100,8 @@ class FocusPointField extends FieldGroup
                 'previewUrl' => $previewImage->URL,
                 'previewWidth' => $previewImage->getWidth(),
                 'previewHeight' => $previewImage->getHeight(),
-                'FocusX' => $this->image->getField($this->name)->getFocusX(),
-                'FocusY' => $this->image->getField($this->name)->getFocusY()
+                'X' => $this->image->getField($this->name)->getX(),
+                'Y' => $this->image->getField($this->name)->getY()
             ];
         }
 

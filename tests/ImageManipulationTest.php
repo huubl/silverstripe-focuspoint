@@ -46,7 +46,7 @@ class ImageManipulationTest extends SapphireTest
     /**
      * Get some image objects with various focus points.
      */
-    public function Images()
+    private function Images()
     {
         $pngLeftTop = $this->objFromFixture(Image::class, 'pngLeftTop');
         $pngLeftTop->VerticalSliceTopLeftColor = '#ff0000';
@@ -146,7 +146,12 @@ class ImageManipulationTest extends SapphireTest
             $bottomRightColor = $im->pickColor(99, 0, 'hex');
             $this->assertEquals($img->HorizontalSliceTopLeftColor, $leftTopColor);
             $this->assertEquals($img->HorizontalSliceBottomRightColor, $bottomRightColor);
-
         }
+    }
+
+    public function testImageChaining()
+    {
+        //TODO: Do it!
+        $this->markTestIncomplete('Implement image chaining test');
     }
 }

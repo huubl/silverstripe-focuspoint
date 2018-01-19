@@ -20,17 +20,17 @@ class DBFocusPoint extends DBComposite
      * FocusY: Decimal number between -1 & 1, where -1 is bottom, 0 is center, 1 is top.
      */
     private static $composite_db = [
-        'FocusX' => 'Double',
-        'FocusY' => 'Double'
+        'X' => 'Double',
+        'Y' => 'Double'
     ];
 
     /**
-     * FocusX
+     * Focus X
      * @return double Decimal number between -1 & 1, where -1 is far left, 0 is center, 1 is far right.
      */
-    public function getFocusX()
+    public function getX()
     {
-        return (double)$this->getField('FocusX');
+        return (double)$this->getField('X');
     }
 
     /**
@@ -38,19 +38,19 @@ class DBFocusPoint extends DBComposite
      * @param double $value
      * @return $this
      */
-    public function setFocusX($value)
+    public function setX($value)
     {
-        $this->setField('FocusX', max(1, min(-1, $value)));
+        $this->setField('X', max(1, min(-1, $value)));
         return $this;
     }
 
     /**
-     * FocusY
+     * Focus Y
      * @return double Decimal number between -1 & 1, where -1 is bottom, 0 is center, 1 is top.
      */
-    public function getFocusY()
+    public function getY()
     {
-        return (double)$this->getField('FocusY');
+        return (double)$this->getField('Y');
     }
 
     /**
@@ -58,9 +58,9 @@ class DBFocusPoint extends DBComposite
      * @param double $value
      * @return $this
      */
-    public function setFocusY($value)
+    public function setY($value)
     {
-        $this->setField('FocusY', max(1, min(-1, $value)));
+        $this->setField('Y', max(1, min(-1, $value)));
         return $this;
     }
 
@@ -81,6 +81,19 @@ class DBFocusPoint extends DBComposite
             $title,
             $this->record instanceof Image ? $this->record : null
         );
+    }
+
+    public function setValue($value, $record = null, $markChanged = true)
+    {
+        if (is_string($value)) {
+            try {
+                $value = json_decode($value, true);
+            } catch (\Exception $ex) {
+                //no op
+            }
+        }
+
+        parent::setValue($value, $record, $markChanged);
     }
 
     /**
@@ -132,13 +145,13 @@ class DBFocusPoint extends DBComposite
         );
 
         $cropData['x'] = array(
-            'FocusPoint' => $this->getFocusX(),
+            'FocusPoint' => $this->getX(),
             'OriginalLength' => $originalWidth,
             'TargetLength' => round($width),
         );
 
         $cropData['y'] = array(
-            'FocusPoint' => $this->getFocusY(),
+            'FocusPoint' => $this->getY(),
             'OriginalLength' => $originalHeight,
             'TargetLength' => round($height),
         );
@@ -202,7 +215,7 @@ class DBFocusPoint extends DBComposite
      * @param bool $upscale whether or not upscaling is allowed
      * @return AssetContainer|null
      */
-    public function generateFocusFill($width, $height, Image $image, $upscale = true)
+    public function FocusFill($width, $height, Image $image, $upscale = true)
     {
         if (!$image && $this->record instanceof Image) {
             $image = $this->record;
@@ -256,8 +269,8 @@ class DBFocusPoint extends DBComposite
 
                 // Update FocusPoint
                 $img->FocusPoint = [
-                    'FocusX' => $cropData['x']['FocusPoint'],
-                    'FocusY' => $cropData['y']['FocusPoint']
+                    'X' => $cropData['x']['FocusPoint'],
+                    'Y' => $cropData['y']['FocusPoint']
                 ];
 
                 return $img;

@@ -10,8 +10,8 @@ class FocusPointField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      FocusX: props.data ? props.data.FocusX : 0,
-      FocusY: props.data ? props.data.FocusY : 0
+      FocusX: props.data ? props.data.X : 0,
+      FocusY: props.data ? props.data.Y : 0
     };
 
     this.handleFocusChange = this.handleFocusChange.bind(this);
@@ -19,22 +19,28 @@ class FocusPointField extends Component {
 
   componentWillReceiveProps(nextProps)
   {
-    if (nextProps.data) {
+    if (nextProps.value !== this.props.value) {
+      const values = JSON.parse(nextProps.value);
       this.setState({
-        FocusX: nextProps.data.FocusX,
-        FocusY: nextProps.data.FocusY
+        FocusX: values.X,
+        FocusY: values.Y
       });
     }
   }
 
   handleFocusChange({focusX, focusY}) {
+    /*
     this.setState({
       FocusX: focusX,
       FocusY: focusY
     });
-
+    */
+    const val = JSON.stringify({
+      X: focusX,
+      Y: focusY
+    });
     if (typeof this.props.onChange === 'function') {
-      this.props.onChange(null, { id: this.props.id, value: `${focusX}:${focusY}` });
+      this.props.onChange(val, { id: this.props.id, value: val });
     }
   }
 
@@ -55,8 +61,8 @@ class FocusPointField extends Component {
           tooltip={tooltip}
           onChange={this.handleFocusChange}
         />
-        <HiddenField name={`${name}FocusX`} value={FocusX} />
-        <HiddenField name={`${name}FocusY`} value={FocusY} />
+        <HiddenField name={`${name}X`} value={FocusX} />
+        <HiddenField name={`${name}Y`} value={FocusY} />
         { showDebug &&
           <FormAlert type="info" value={`X: ${FocusX} / Y: ${FocusY}`}/>
         }

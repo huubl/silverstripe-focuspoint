@@ -32,7 +32,7 @@ class FocusPointImageExtension extends DataExtension
      */
     public function PercentageX()
     {
-        return round($this->focusCoordToOffset('x', $this->owner->getField('FocusPoint')->FocusX) * 100);
+        return round($this->focusCoordToOffset('x', $this->owner->getField('FocusPoint')->getX()) * 100);
     }
 
     /**
@@ -44,7 +44,7 @@ class FocusPointImageExtension extends DataExtension
      */
     public function PercentageY()
     {
-        return round($this->focusCoordToOffset('y', $this->owner->getField('FocusPoint')->FocusY) * 100);
+        return round($this->focusCoordToOffset('y', $this->owner->getField('FocusPoint')->getY()) * 100);
     }
 
     public function DebugFocusPoint()
@@ -66,9 +66,9 @@ class FocusPointImageExtension extends DataExtension
         $bgOffset = floor(-$backgroundWH/2);
         $fieldW = $width ?: $this->owner->getWidth();
         $fieldH = $height ?: $this->owner->getHeight();
-        $leftBG = $bgOffset+(($this->owner->getField('FocusPoint')->FocusX/2 +.5)*$fieldW);
+        $leftBG = $bgOffset+(($this->owner->getField('FocusPoint')->getX() / 2 +.5)*$fieldW);
 
-        $topBG = $bgOffset+((-$this->owner->getField('FocusPoint')->FocusY/2 +.5)*$fieldH);
+        $topBG = $bgOffset+((-$this->owner->getField('FocusPoint')->getY() / 2 +.5)*$fieldH);
 
         // Line up crosshairs with click position
         return 'background-position: ' . $leftBG . 'px ' . $topBG . 'px;';
@@ -117,7 +117,7 @@ class FocusPointImageExtension extends DataExtension
      */
     public function FocusFill($width, $height, $upscale = true)
     {
-        return $this->owner->getField('FocusPoint')->generateFocusFill($width, $height, $this->owner, $upscale);
+        return $this->owner->getField('FocusPoint')->FocusFill($width, $height, $this->owner, $upscale);
     }
 
     public function requireDefaultRecords()

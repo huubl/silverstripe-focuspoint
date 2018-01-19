@@ -6,9 +6,6 @@ After:
 SilverStripe\Assets\Image:
   extensions:
     - JonoM\FocusPoint\Extensions\FocusPointImageExtension
-SilverStripe\Assets\Storage\DBFile:
-  extensions:
-    - JonoM\FocusPoint\Extensions\FocusPointImageExtension
 SilverStripe\AssetAdmin\Forms\ImageFormFactory:
   extensions:
     - JonoM\FocusPoint\Extensions\FocusPointAssetFormFactoryExtension
@@ -17,4 +14,3 @@ SilverStripe\Admin\LeftAndMain:
     - 'jonom/focuspoint: client/dist/styles/main.css'
   extra_requirements_javascript:
     - 'jonom/focuspoint: client/dist/js/main.js'
-
