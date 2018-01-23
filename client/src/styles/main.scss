@@ -1,3 +1,14 @@
+.focuspoint-field {
+  div.field.text {
+    display: none;
+  }
+  &--debug {
+    div.field.text {
+      display: block;
+    }
+  }
+}
+
 .focuspoint-picker {
   position: relative;
   margin: 0;

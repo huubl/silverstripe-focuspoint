@@ -83,19 +83,6 @@ class DBFocusPoint extends DBComposite
         );
     }
 
-    public function setValue($value, $record = null, $markChanged = true)
-    {
-        if (is_string($value)) {
-            try {
-                $value = json_decode($value, true);
-            } catch (\Exception $ex) {
-                //no op
-            }
-        }
-
-        parent::setValue($value, $record, $markChanged);
-    }
-
     /**
      * Turn a focus x/y coordinate in to an offset from left or top
      * @param string $axis either 'x' or 'y'

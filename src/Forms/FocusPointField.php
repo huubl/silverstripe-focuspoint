@@ -7,6 +7,7 @@ use SilverStripe\Control\Director;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\LiteralField;
+use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
 
 /**
@@ -46,34 +47,24 @@ class FocusPointField extends FieldGroup
     protected $schemaComponent = 'FocusPointField';
 
     protected $image = null;
+    protected $fieldName = null;
 
     public function __construct($name, $title = null, Image $image = null)
     {
         // Create the fields
         $fields = [
-            TextField::create($name . 'X'),
-            TextField::create($name . 'Y')
+            $x = TextField::create($name . 'X'),
+            $y = TextField::create($name . 'Y')
         ];
 
         if ($image) {
-            $previewImage = $image->FitMax($this->config()->get('max_width'), $this->config()->get('max_height'));
-            array_unshift($fields, LiteralField::create('FocusPointGrid', $previewImage->renderWith(
-                FocusPointField::class,
-                ['FieldGridBackgroundCSS' => $image->FieldGridBackgroundCSS($previewImage->getWidth(), $previewImage->getHeight())]
-            )));
             $this->image = $image;
+            $x->setValue((float)$image->getField($name)->getX());
+            $y->setValue((float)$image->getField($name)->getY());
         }
 
-        parent::__construct($fields);
-
-        $this
-            ->setName($name)
-            ->setTitle($title)
-            ->addExtraClass('focuspoint-fieldgroup');
-
-        if (Director::isDev() && $this->config()->get('debug')) {
-            $this->addExtraClass('debug');
-        }
+        $this->fieldName = $name;
+        parent::__construct($title, $fields);
     }
 
     public function getToolTip()
@@ -100,8 +91,8 @@ class FocusPointField extends FieldGroup
                 'previewUrl' => $previewImage->URL,
                 'previewWidth' => $previewImage->getWidth(),
                 'previewHeight' => $previewImage->getHeight(),
-                'X' => $this->image->getField($this->name)->getX(),
-                'Y' => $this->image->getField($this->name)->getY()
+                'X' => (float)$this->image->getField($this->fieldName)->getX(),
+                'Y' => (float)$this->image->getField($this->fieldName)->getY()
             ];
         }
 
