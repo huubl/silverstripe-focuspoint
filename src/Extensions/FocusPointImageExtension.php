@@ -32,7 +32,10 @@ class FocusPointImageExtension extends DataExtension
      */
     public function PercentageX()
     {
-        return round($this->focusCoordToOffset('x', $this->owner->getField('FocusPoint')->getX()) * 100);
+        if ($field = $this->owner->FocusPoint) {
+            return round(DBFocusPoint::focusCoordToOffset($field->getX()) * 100);
+        }
+        return 0;
     }
 
     /**
@@ -44,12 +47,15 @@ class FocusPointImageExtension extends DataExtension
      */
     public function PercentageY()
     {
-        return round($this->focusCoordToOffset('y', $this->owner->getField('FocusPoint')->getY()) * 100);
+        if ($field = $this->owner->FocusPoint) {
+            return round(DBFocusPoint::focusCoordToOffset($field->getY()) * 100);
+        }
+        return 0;
     }
 
     public function DebugFocusPoint()
     {
-        Requirements::css('jonom/focuspoint: client/dist/styles/main.css');
+        Requirements::css('jonom/focuspoint: client/dist/styles/debug.css');
         return $this->owner->renderWith('JonoM/FocusPoint/FocusPointDebug');
     }
 
@@ -97,7 +103,7 @@ class FocusPointImageExtension extends DataExtension
      */
     public function FocusFill($width, $height, $upscale = true)
     {
-        return $this->owner->getField('FocusPoint')->FocusFill($width, $height, $this->owner, $upscale);
+        return $this->owner->FocusPoint->FocusFill($width, $height, $this->owner, $upscale);
     }
 
     public function requireDefaultRecords()

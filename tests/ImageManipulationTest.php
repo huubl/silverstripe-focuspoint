@@ -149,6 +149,19 @@ class ImageManipulationTest extends SapphireTest
         }
     }
 
+    public function testPercentages()
+    {
+        $pngLeftTop = $this->objFromFixture(Image::class, 'pngLeftTop');
+        $this->assertEquals(38, $pngLeftTop->PercentageX());
+        $this->assertEquals(38, $pngLeftTop->PercentageY());
+
+        $pngLeftTop->FocusPoint->setX(0)->setY(0.5);
+        $this->assertEquals(50, $pngLeftTop->PercentageX());
+        $this->assertEquals(75, $pngLeftTop->PercentageY());
+
+
+    }
+
     public function testImageChaining()
     {
         //TODO: Do it!
