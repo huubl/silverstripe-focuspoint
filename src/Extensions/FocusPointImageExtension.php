@@ -49,30 +49,10 @@ class FocusPointImageExtension extends DataExtension
 
     public function DebugFocusPoint()
     {
-        Requirements::css('jonom/focuspoint: client/css/focuspoint-debug.css');
+        Requirements::css('jonom/focuspoint: client/dist/styles/main.css');
         return $this->owner->renderWith('JonoM/FocusPoint/FocusPointDebug');
     }
 
-    /**
-     * Pre-render CSS for positioning crosshairs in focuspoint field.
-     * This prevents lag or miscalculation.
-     *
-     * @return string
-     */
-    public function FieldGridBackgroundCSS($width, $height)
-    {
-        // Calculate background positions
-        $backgroundWH = 605; // Width (and also height, since it's square) of grid crosshair background image
-        $bgOffset = floor(-$backgroundWH/2);
-        $fieldW = $width ?: $this->owner->getWidth();
-        $fieldH = $height ?: $this->owner->getHeight();
-        $leftBG = $bgOffset+(($this->owner->getField('FocusPoint')->getX() / 2 +.5)*$fieldW);
-
-        $topBG = $bgOffset+((-$this->owner->getField('FocusPoint')->getY() / 2 +.5)*$fieldH);
-
-        // Line up crosshairs with click position
-        return 'background-position: ' . $leftBG . 'px ' . $topBG . 'px;';
-    }
 
     /**
      * Crop this image to the aspect ratio defined by the specified width and
