@@ -192,7 +192,7 @@ class DBFocusPoint extends DBComposite
      * @param bool $upscale whether or not upscaling is allowed
      * @return AssetContainer|null
      */
-    public function FocusFill($width, $height, Image $image, $upscale = true)
+    public function FocusFill($width, $height, AssetContainer $image, $upscale = true)
     {
         if (!$image && $this->record instanceof Image) {
             $image = $this->record;

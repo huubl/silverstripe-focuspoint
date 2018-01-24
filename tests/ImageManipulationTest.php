@@ -159,12 +159,33 @@ class ImageManipulationTest extends SapphireTest
         $this->assertEquals(50, $pngLeftTop->PercentageX());
         $this->assertEquals(75, $pngLeftTop->PercentageY());
 
-
+        $pngLeftTop->FocusPoint->setX(1)->setY(-1);
+        $this->assertEquals(100, $pngLeftTop->PercentageX());
+        $this->assertEquals(0, $pngLeftTop->PercentageY());
     }
 
     public function testImageChaining()
     {
-        //TODO: Do it!
-        $this->markTestIncomplete('Implement image chaining test');
+        // Grab an image and set its focus point to bottom left
+        $pngLeftBottom = $this->objFromFixture(Image::class, 'pngLeftBottom');
+        $pngLeftBottom->FocusPoint->setY(0.5)->setX(-0.5);
+
+        $this->assertEquals(-0.5, $pngLeftBottom->FocusPoint->getX());
+        $this->assertEquals(0.5, $pngLeftBottom->FocusPoint->getY());
+
+        // crop to half the width, and full height
+        $cropped = $pngLeftBottom->FocusFillMax(50,100);
+        $this->assertEquals(0, $cropped->FocusPoint->getX());
+        $this->assertEquals(.5, $cropped->FocusPoint->getY());
+
+        // crop the cropped image again to .75 of the height
+        $cropped = $cropped->FocusFillMax(50, 75);
+        $this->assertEquals(0, $cropped->FocusPoint->getX());
+        $this->assertEquals(1/3, $cropped->FocusPoint->getY());
+
+        // crop the cropped image again to square
+        $cropped = $cropped->FocusFillMax(50, 50);
+        $this->assertEquals(0, $cropped->FocusPoint->getX());
+        $this->assertEquals(0, $cropped->FocusPoint->getY());
     }
 }

@@ -37,4 +37,9 @@ class FocusPointTest extends SapphireTest
         $this->assertEquals(0, DBFocusPoint::focusOffsetToCoord(0.5));
         $this->assertEquals(1.0, DBFocusPoint::focusOffsetToCoord(1));
     }
+
+    public function testCalculateCrop()
+    {
+        $this->markTestIncomplete('Implement crop calculation tests');
+    }
 }
