@@ -55,7 +55,8 @@ const config = [
   {
     name: 'css',
     entry: {
-      main: `${PATHS.SRC}/styles/main.scss`
+      main: `${PATHS.SRC}/styles/main.scss`,
+      debug: `${PATHS.SRC}/styles/debug.scss`
     },
     output: {
       path: PATHS.DIST,

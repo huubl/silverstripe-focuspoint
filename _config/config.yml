@@ -3,6 +3,9 @@ Name: focuspoint
 After:
     - 'assetsimage'
 ---
+SilverStripe\Assets\Storage\DBFile:
+  extensions:
+    - JonoM\FocusPoint\Extensions\FocusPointImageExtension
 SilverStripe\Assets\Image:
   extensions:
     - JonoM\FocusPoint\Extensions\FocusPointImageExtension

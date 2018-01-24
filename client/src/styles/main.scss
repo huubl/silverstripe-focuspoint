@@ -21,6 +21,7 @@
 }
 
 .focuspoint-picker {
+  $base: &;
   position: relative;
   margin: 0;
   overflow: hidden;
@@ -53,6 +54,10 @@
       background-size: 100% 100%;
       pointer-events: none;
     }
+  }
+
+  &__image {
+    display: block;
   }
 
   &__overlay {
