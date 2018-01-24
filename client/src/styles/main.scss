@@ -1,9 +1,20 @@
 .focuspoint-field {
+  $base: &;
   div.field.text {
     display: none;
   }
   &--debug {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+
+    #{$base}__image-wrapper {
+      flex: 1 1 auto;
+      width: 100%;
+    }
+
     div.field.text {
+      flex: 1 1 auto;
       display: block;
     }
   }

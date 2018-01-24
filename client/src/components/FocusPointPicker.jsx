@@ -12,6 +12,9 @@ class FocusPointPicker extends Component {
   }
 
   handleClick(event) {
+    if (this.props.readOnly) {
+      return;
+    }
     let x = event.nativeEvent.offsetX;
     let y = event.nativeEvent.offsetY;
 

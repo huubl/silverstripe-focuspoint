@@ -6,8 +6,6 @@ use SilverStripe\Assets\Image;
 use SilverStripe\Control\Director;
 use SilverStripe\Forms\FieldGroup;
 use SilverStripe\Forms\FormField;
-use SilverStripe\Forms\LiteralField;
-use SilverStripe\Forms\NumericField;
 use SilverStripe\Forms\TextField;
 
 /**
@@ -47,7 +45,6 @@ class FocusPointField extends FieldGroup
     protected $schemaComponent = 'FocusPointField';
 
     protected $image = null;
-    protected $fieldName = null;
 
     public function __construct($name, $title = null, Image $image = null)
     {
@@ -59,11 +56,11 @@ class FocusPointField extends FieldGroup
 
         if ($image) {
             $this->image = $image;
-            $x->setValue((float)$image->getField($name)->getX());
-            $y->setValue((float)$image->getField($name)->getY());
+            $x->setValue($image->getField($name)->getX());
+            $y->setValue($image->getField($name)->getY());
         }
 
-        $this->fieldName = $name;
+        $this->setName($name)->setValue('');
         parent::__construct($title, $fields);
     }
 
@@ -91,8 +88,8 @@ class FocusPointField extends FieldGroup
                 'previewUrl' => $previewImage->URL,
                 'previewWidth' => $previewImage->getWidth(),
                 'previewHeight' => $previewImage->getHeight(),
-                'X' => (float)$this->image->getField($this->fieldName)->getX(),
-                'Y' => (float)$this->image->getField($this->fieldName)->getY()
+                'X' => $this->image->getField($this->getName())->getX(),
+                'Y' => $this->image->getField($this->getName())->getY()
             ];
         }
 

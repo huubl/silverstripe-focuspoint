@@ -6,11 +6,11 @@ import { inject } from 'lib/Injector';
 class FocusPointField extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       FocusX: props.data ? props.data.X : 0,
       FocusY: props.data ? props.data.Y : 0
     };
-
     this.handleFocusChange = this.handleFocusChange.bind(this);
   }
 
@@ -54,6 +54,7 @@ class FocusPointField extends Component {
           // overload the children change handler
           onChange: (e) => this.handleFieldChange(key, e),
           key,
+          value: child.props.value || 0
         }, child.props.children)
       ))
     }
@@ -62,36 +63,39 @@ class FocusPointField extends Component {
   }
 
   render() {
-    const {extraClass, FocusPointPicker, FieldGroup, children} = this.props;
+    const {FocusPointPicker, FieldGroup, children, readOnly} = this.props;
     const {showDebug, tooltip, previewUrl, previewWidth, previewHeight} = this.props.data;
     const {FocusX, FocusY} = this.state;
 
-    const className = classNames('focuspoint-field', extraClass, {'focuspoint-field--debug': showDebug});
+    const newProps = {
+      ...this.props,
+      className: classNames('focuspoint-field', {'focuspoint-field--debug': showDebug})
+    };
 
     return (
-      <div className={className}>
-        <FieldGroup {...this.props}>
-          <div>
-            <FocusPointPicker
-              className="focuspoint-field__picker"
-              imageUrl={previewUrl}
-              focusX={FocusX}
-              focusY={FocusY}
-              width={Math.ceil(previewWidth * 0.5)}
-              height={Math.ceil(previewHeight * 0.5)}
-              tooltip={tooltip}
-              onChange={this.handleFocusChange}
-            />
-          </div>
-          {this.renderChildren(children, showDebug)}
-        </FieldGroup>
-      </div>
+      <FieldGroup {...newProps}>
+        <div className="focuspoint-field__image-wrapper">
+          <FocusPointPicker
+            className="focuspoint-field__picker"
+            imageUrl={previewUrl}
+            focusX={FocusX}
+            focusY={FocusY}
+            width={Math.ceil(previewWidth * 0.5)}
+            height={Math.ceil(previewHeight * 0.5)}
+            tooltip={tooltip}
+            readOnly={readOnly}
+            onChange={this.handleFocusChange}
+          />
+        </div>
+        {this.renderChildren(children, showDebug)}
+      </FieldGroup>
     )
   }
 }
 
 FocusPointField.defaultProps = {
-  extraClass: ''
+  extraClass: '',
+  value: ''
 };
 
 FocusPointField.propTypes = {
