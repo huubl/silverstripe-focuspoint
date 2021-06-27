@@ -2,21 +2,27 @@
 
 language: php
 sudo: false
-dist: trusty
+dist: xenial
+
+services:
+  - mysql
 
 env:
   global:
-    - COMPOSER_ROOT_VERSION=3.0.x-dev
     - SS_ENVIRONMENT_TYPE="dev"
+    - DB=MYSQL
 
 matrix:
   include:
-    - php: 5.6
+    - php: 7.2
       env:
-        - DB=MYSQL
-    - php: 7.1
+        - RECIPE_VERSION=4.4.7
+    - php: 7.3
       env:
-        - DB=PGSQL
+        - RECIPE_VERSION=4.5.3
+    - php: 7.4
+      env:
+        - RECIPE_VERSION=4.6.1
 
 before_script:
   # Init PHP
@@ -27,8 +33,8 @@ before_script:
   # Install composer dependencies
   - export PATH=~/.composer/vendor/bin:$PATH
   - composer validate
-  - composer install --prefer-source
-  - if [[ $DB == PGSQL ]]; then composer require silverstripe/postgresql:^2.2 --prefer-source; fi
+  - composer require silverstripe/recipe-core $RECIPE_VERSION --no-update
+  - composer update --prefer-source
 
 script:
   - vendor/bin/phpunit
